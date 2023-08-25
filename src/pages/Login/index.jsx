@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import Navbar from '../../components/Navbar';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [haveAccount, sethaveAccount] = useState(true);
@@ -29,7 +31,7 @@ export default function Login() {
   const handleRegisterSubmit = event => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert('Password and confirm password must be the same');
+      toast.error('Password and confirm password must be the same');
       return;
     }
     sendRegisterData(email, password);
@@ -48,7 +50,7 @@ export default function Login() {
         navigate('/home');
       })
       .catch(error => {
-        alert(error.response.data.message);
+        toast.error(error.response.data.message);
       });
   };
 
@@ -62,21 +64,22 @@ export default function Login() {
       .post('http://localhost:8080/register', data)
       .then(response => {
         localStorage.setItem('token', response.data);
-        alert('Registeration success');
+        toast.success('Registeration successful!');
         sethaveAccount(true);
       })
       .catch(error => {
-        alert(error.response.data.message);
+        toast.error(error.response.data.message);
       });
   };
 
   return (
     <div className='relative flex flex-col justify-center min-h-screen overflow-hidden'>
+      <Navbar loginPage={true} />
       <div className='w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl'>
         {haveAccount ? (
-          <h1 className='text-3xl font-semibold text-center text-purple-700 underline'>Welcome Back</h1>
+          <h1 className='text-3xl font-semibold text-center text-purple-700'>Welcome Back</h1>
         ) : (
-          <h1 className='text-3xl font-semibold text-center text-purple-700 underline'>Create an Account</h1>
+          <h1 className='text-3xl font-semibold text-center text-purple-700'>Create Account</h1>
         )}
         <form className='mt-6'>
           <div className='mb-2'>

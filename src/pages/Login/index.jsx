@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
@@ -7,8 +7,15 @@ export default function Login() {
   const [haveAccount, sethaveAccount] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setconfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/home');
+    }
+  }, []);
 
   const haveAccountHandler = () => {
     sethaveAccount(!haveAccount);
@@ -55,7 +62,8 @@ export default function Login() {
       .post('http://localhost:8080/register', data)
       .then(response => {
         localStorage.setItem('token', response.data);
-        alert('Register success');
+        alert('Registeration success');
+        sethaveAccount(true);
       })
       .catch(error => {
         alert(error.response.data.message);
@@ -66,9 +74,9 @@ export default function Login() {
     <div className='relative flex flex-col justify-center min-h-screen overflow-hidden'>
       <div className='w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl'>
         {haveAccount ? (
-          <h1 className='text-3xl font-semibold text-center text-purple-700 underline'>Sign in</h1>
+          <h1 className='text-3xl font-semibold text-center text-purple-700 underline'>Welcome Back</h1>
         ) : (
-          <h1 className='text-3xl font-semibold text-center text-purple-700 underline'>Sign up</h1>
+          <h1 className='text-3xl font-semibold text-center text-purple-700 underline'>Create an Account</h1>
         )}
         <form className='mt-6'>
           <div className='mb-2'>
@@ -77,7 +85,7 @@ export default function Login() {
             </label>
             <input
               type='email'
-              className='block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
+              className='block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
               onChange={e => setEmail(e.target.value)}
             />
           </div>
@@ -87,7 +95,7 @@ export default function Login() {
             </label>
             <input
               type='password'
-              className='block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
+              className='block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
               onChange={e => setPassword(e.target.value)}
             />
           </div>
@@ -98,8 +106,8 @@ export default function Login() {
               </label>
               <input
                 type='password'
-                className='block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
-                onChange={e => setconfirmPassword(e.target.value)}
+                className='block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
+                onChange={e => setConfirmPassword(e.target.value)}
               />
             </div>
           )}

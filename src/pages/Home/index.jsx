@@ -22,7 +22,7 @@ const Home = () => {
         setReservations(response.data);
       })
       .catch(error => {
-        console.error('Error fetching reservations:', error);
+        toast.error(error.response.data.message);
       });
   }, []);
 
@@ -48,10 +48,10 @@ const Home = () => {
           toast.success('Reservation deleted successfully!');
         })
         .catch(error => {
-          console.error('Error deleting reservation:', error);
+          toast.error(error.response.data.message);
         });
     } else {
-      console.error('Reservation not found.');
+      toast.error('Reservation not found.');
     }
   };
 

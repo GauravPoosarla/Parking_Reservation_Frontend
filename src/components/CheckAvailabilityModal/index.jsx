@@ -39,7 +39,7 @@ const CheckAvailabilityModal = ({ isOpen, onClose }) => {
         }
       })
       .catch(error => {
-        console.error('Error fetching available slots:', error);
+        toast.error(error.response.data.message);
       })
       .finally(() => {
         setIsChecking(false);

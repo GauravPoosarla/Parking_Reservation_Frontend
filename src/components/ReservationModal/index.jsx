@@ -25,7 +25,7 @@ const ReservationModal = ({ isOpen, onClose }) => {
         setAvailableSlots(response.data);
       })
       .catch(error => {
-        console.error('Error fetching available slots:', error);
+        toast.error(error.response.data.message);
       });
   };
 
@@ -57,7 +57,7 @@ const ReservationModal = ({ isOpen, onClose }) => {
         setSelectedSlot('');
       })
       .catch(error => {
-        console.error('Error creating reservation:', error);
+        toast.error(error.response.data.message);
       });
   };
 

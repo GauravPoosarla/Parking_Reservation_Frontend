@@ -1,0 +1,21 @@
+/* CalendarStyles.css */
+
+/* Adjust the width of the calendar */
+.react-calendar {
+  width: 250px; /* Adjust as needed */
+}
+
+/* Adjust the height of each day cell */
+.react-calendar__month-view__days__day {
+  height: 30px; /* Adjust as needed */
+}
+
+/* Adjust the font size of day numbers and week day labels */
+.react-calendar__tile {
+  font-size: 12px; /* Adjust as needed */
+}
+
+/* Optionally, adjust the font size of the month and year header */
+.react-calendar__navigation__label {
+  font-size: 14px; /* Adjust as needed */
+}

@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import ReservationModal from '../../components/ReservationModal';
 import CheckAvailabilityModal from '../../components/CheckAvailabilityModal';
+import UpdateReservationModal from '../../components/UpdateReservationModal';
 import { ReservationDataContext } from '../../contexts/ReservationData';
 import { toast } from 'react-toastify';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCheckAvailabilityModalOpen, setIsCheckAvailabilityModalOpen] = useState(false);
+  const [isUpdateReservationModalOpen, setIsUpdateReservationModalOpen] = useState(false);
+  const [updateReservation, setUpdateReservation] = useState({});
   const navigate = useNavigate();
   const { reservations, setReservations } = useContext(ReservationDataContext);
 
@@ -31,8 +34,12 @@ const Home = () => {
       navigate('/login');
     }
   });
-  const handleUpdateReservation = () => {
-    // Implement update reservation logic here
+
+  const handleUpdateReservation = id => {
+    setIsUpdateReservationModalOpen(true);
+    const reservationToUpdate = reservations.find(reservation => reservation.id === id);
+    console.log(reservationToUpdate);
+    setUpdateReservation(reservationToUpdate);
   };
 
   const handleDeleteReservation = id => {
@@ -150,6 +157,11 @@ const Home = () => {
         <CheckAvailabilityModal
           isOpen={isCheckAvailabilityModalOpen}
           onClose={() => setIsCheckAvailabilityModalOpen(false)}
+        />
+        <UpdateReservationModal
+          isOpen={isUpdateReservationModalOpen}
+          onClose={() => setIsUpdateReservationModalOpen(false)}
+          reservation={updateReservation}
         />
       </div>
     </div>

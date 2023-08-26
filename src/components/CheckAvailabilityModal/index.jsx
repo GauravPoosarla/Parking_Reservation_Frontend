@@ -129,7 +129,7 @@ const CheckAvailabilityModal = ({ isOpen, onClose }) => {
                     name='date'
                     value={date}
                     onChange={e => setDate(e.target.value)}
-                    className='pl-3 pr-4 py-2 focus:outline-none focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                    className='pl-3 pr-4 py-2 focus:outline-none focus:ring-purple-500 focus:border-purple-500 block w-full shadow-md sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
                 <button

@@ -13,8 +13,8 @@ const Home = () => {
   const [isCheckAvailabilityModalOpen, setIsCheckAvailabilityModalOpen] = useState(false);
   const [isUpdateReservationModalOpen, setIsUpdateReservationModalOpen] = useState(false);
   const [updateReservation, setUpdateReservation] = useState({});
-  const navigate = useNavigate();
   const { reservations, setReservations } = useContext(ReservationDataContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -38,7 +38,6 @@ const Home = () => {
   const handleUpdateReservation = id => {
     setIsUpdateReservationModalOpen(true);
     const reservationToUpdate = reservations.find(reservation => reservation.id === id);
-    console.log(reservationToUpdate);
     setUpdateReservation(reservationToUpdate);
   };
 
@@ -111,7 +110,7 @@ const Home = () => {
             Check Availability
           </button>
         </div>
-        <div className='bg-white rounded-md shadow-md p-4'>
+        <div className='bg-white rounded-md shadow-lg p-4'>
           <h2 className='text-lg font-semibold mb-2'>Your Reservations</h2>
           <div className='overflow-y-scroll max-h-96'>
             <table className='w-full border'>

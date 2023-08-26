@@ -146,7 +146,7 @@ const ReservationModal = ({ isOpen, onClose }) => {
                     name='date'
                     value={date}
                     onChange={e => setDate(e.target.value)}
-                    className='mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md'
+                    className='mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-md sm:text-sm border-gray-300 rounded-md'
                   />
                 </div>
                 <button

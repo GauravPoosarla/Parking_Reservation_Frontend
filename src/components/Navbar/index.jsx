@@ -1,11 +1,16 @@
 import React from 'react';
+import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { ReservationDataContext } from '../../contexts/ReservationData';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setReservations } = useContext(ReservationDataContext);
+
   const handleSignOut = () => {
     localStorage.removeItem('token');
+    setReservations([]);
     navigate('/login');
   };
 

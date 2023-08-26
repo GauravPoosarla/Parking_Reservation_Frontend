@@ -150,7 +150,7 @@ const Home = () => {
                 ))}
               </tbody>
             </table>
-            {reservations.length === 0 && <p className='text-gray-500'>You don&39#;t have any reservations yet.</p>}
+            {reservations.length === 0 && <p className='text-gray-500'>You don&#39;t have any reservations yet.</p>}
           </div>
         </div>
         <ReservationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

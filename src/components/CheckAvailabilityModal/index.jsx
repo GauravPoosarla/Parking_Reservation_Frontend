@@ -8,7 +8,7 @@ const CheckAvailabilityModal = ({ isOpen, onClose }) => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [date, setDate] = useState('');
-  const [availableSlots, setAvailableSlots] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]); // eslint-disable-line no-unused-vars
   const [isChecking, setIsChecking] = useState(false);
 
   const fetchAvailableSlots = () => {
@@ -22,19 +22,17 @@ const CheckAvailabilityModal = ({ isOpen, onClose }) => {
       })
       .then(response => {
         setAvailableSlots(response.data);
-        if (availableSlots.length > 0) {
+        if (response.data.length > 0) {
           onClose();
           setStartTime('');
           setEndTime('');
           setDate('');
-          setAvailableSlots([]);
           toast.success('Slots are available');
         } else {
           onClose();
           setStartTime('');
           setEndTime('');
           setDate('');
-          setAvailableSlots([]);
           toast.error('No slots are available');
         }
       })

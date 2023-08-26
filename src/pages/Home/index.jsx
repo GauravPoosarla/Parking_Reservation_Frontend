@@ -120,8 +120,10 @@ const Home = () => {
                   <th className='py-2 px-4 text-left'>Date</th>
                   <th className='py-2 px-4 text-left'>Time</th>
                   <th className='py-2 px-4 text-left'>Slot</th>
-                  <th className='py-2 px-4'></th>
-                  <th className='py-2 px-4'></th>
+                  <th className='py-2 px-4'>
+                    <div className='flex justify-end items-center pr-3'>Actions</div>
+                  </th>
+                  <th className='py-2 px-4 text-left'></th>
                 </tr>
               </thead>
               <tbody>

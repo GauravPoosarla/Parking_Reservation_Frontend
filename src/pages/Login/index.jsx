@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Navbar from '../../components/Navbar';
+import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
 
 export default function Login() {
@@ -15,7 +16,13 @@ export default function Login() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      navigate('/home');
+      const data = jwtDecode(token);
+      if (data.role === 'admin') {
+        navigate('/admin');
+      }
+      if (data.role === 'user') {
+        navigate('/home');
+      }
     }
   }, []);
 
@@ -47,7 +54,14 @@ export default function Login() {
       .post('http://localhost:8080/login', data)
       .then(response => {
         localStorage.setItem('token', response.data);
-        navigate('/home');
+        toast.success('Login successful!');
+        const data = jwtDecode(response.data);
+        if (data.role === 'admin') {
+          navigate('/admin');
+        }
+        if (data.role === 'user') {
+          navigate('/home');
+        }
       })
       .catch(error => {
         toast.error(error.response.data.message);

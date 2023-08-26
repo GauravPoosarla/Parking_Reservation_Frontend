@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Select from 'react-select';
+import StyledCalendar from '../StyledCalendar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { ReservationDataContext } from '../../contexts/ReservationData';
 import { toast } from 'react-toastify';
 
@@ -12,6 +15,7 @@ const UpdateReservationModal = ({ isOpen, onClose, reservation }) => {
   const [date, setDate] = useState('');
   const [selectedSlot, setSelectedSlot] = useState('');
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     if (reservation.startTime) {
@@ -99,6 +103,9 @@ const UpdateReservationModal = ({ isOpen, onClose, reservation }) => {
   };
 
   const timeOptions = generateTimeOptions();
+  const toggleCalendar = () => {
+    setShowCalendar(!showCalendar);
+  };
 
   return (
     <div className={`fixed inset-0 z-10 overflow-y-auto ${isOpen ? 'block' : 'hidden'}`}>
@@ -153,18 +160,26 @@ const UpdateReservationModal = ({ isOpen, onClose, reservation }) => {
                     className='mt-1'
                   />
                 </div>
-                <div className='mb-4'>
-                  <label htmlFor='date' className='block text-sm font-medium text-gray-700'>
-                    Date
-                  </label>
-                  <input
-                    type='date'
-                    id='date'
-                    name='date'
-                    value={date}
-                    onChange={e => setDate(e.target.value)}
-                    className='mt-1 focus:ring-purple-500 focus:border-purple-500 block w-full shadow-md sm:text-sm border-gray-300 rounded-md'
-                  />
+                <div className='mb-4 flex justify-between items-center'>
+                  <p className='text-sm font-medium text-gray-700 flex items-center gap-x-2'>
+                    Date: {date ? new Date(date).toLocaleDateString() : 'Not selected'}
+                  </p>
+                  <button
+                    type='button'
+                    onClick={toggleCalendar}
+                    className='flex items-center px-2 py-1 text-sm text-white bg-purple-700 rounded-md'>
+                    <FontAwesomeIcon icon={faCalendarAlt} />
+                  </button>
+                  {showCalendar && (
+                    <div className='absolute z-10 top-0 transform translate-x-[55%] translate-y-[15%]'>
+                      <StyledCalendar
+                        onSelectDate={date => {
+                          setDate(date);
+                          toggleCalendar();
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <button
                   className={`px-4 py-2 bg-purple-700 text-white rounded-full ${

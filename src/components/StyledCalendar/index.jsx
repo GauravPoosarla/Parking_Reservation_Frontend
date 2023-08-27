@@ -8,6 +8,8 @@ const StyledCalendar = ({ onSelectDate }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDateChange = date => {
+    date.setHours(date.getHours() + 5);
+    date.setMinutes(date.getMinutes() + 30);
     setSelectedDate(date);
     onSelectDate(date); // Pass the selected date to the parent component
   };

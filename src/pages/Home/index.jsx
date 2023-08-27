@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import ReservationModal from '../../components/ReservationModal';
 import CheckAvailabilityModal from '../../components/CheckAvailabilityModal';
 import UpdateReservationModal from '../../components/UpdateReservationModal';
+import ConfirmationModal from '../../components/ConfirmationModal';
 import { ReservationDataContext } from '../../contexts/ReservationData';
 import { toast } from 'react-toastify';
 
@@ -13,6 +14,7 @@ const Home = () => {
   const [isCheckAvailabilityModalOpen, setIsCheckAvailabilityModalOpen] = useState(false);
   const [isUpdateReservationModalOpen, setIsUpdateReservationModalOpen] = useState(false);
   const [updateReservation, setUpdateReservation] = useState({});
+  const [deleteReservationId, setDeleteReservationId] = useState(null);
   const { reservations, setReservations } = useContext(ReservationDataContext);
   const navigate = useNavigate();
 
@@ -42,24 +44,54 @@ const Home = () => {
   };
 
   const handleDeleteReservation = id => {
-    const reservationToDelete = reservations.find(reservation => reservation.id === id);
+    setDeleteReservationId(id); // Set the reservation ID to be deleted
+  };
 
-    if (reservationToDelete) {
-      axios
-        .delete(`http://localhost:8000/cancel-reservation/${id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        })
-        .then(() => {
-          setReservations(prevReservations => prevReservations.filter(reservation => reservation.id !== id));
-          toast.success('Reservation deleted successfully!');
-        })
-        .catch(error => {
-          toast.error(error.response.data.message);
-        });
-    } else {
-      toast.error('Reservation not found.');
+  const confirmDelete = () => {
+    if (deleteReservationId) {
+      const reservationToDelete = reservations.find(reservation => reservation.id === deleteReservationId);
+
+      if (reservationToDelete) {
+        axios
+          .delete(`http://localhost:8000/cancel-reservation/${deleteReservationId}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          })
+          .then(() => {
+            setReservations(prevReservations =>
+              prevReservations.filter(reservation => reservation.id !== deleteReservationId)
+            );
+            toast.success('Reservation deleted successfully!');
+          })
+          .catch(error => {
+            toast.error(error.response.data.message);
+          });
+      } else {
+        toast.error('Reservation not found.');
+      }
+
+      setDeleteReservationId(null); // Clear the reservation ID after handling the deletion
     }
   };
+
+  // const handleDeleteReservation = id => {
+  //   const reservationToDelete = reservations.find(reservation => reservation.id === id);
+
+  //   if (reservationToDelete) {
+  //     axios
+  //       .delete(`http://localhost:8000/cancel-reservation/${id}`, {
+  //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //       })
+  //       .then(() => {
+  //         setReservations(prevReservations => prevReservations.filter(reservation => reservation.id !== id));
+  //         toast.success('Reservation deleted successfully!');
+  //       })
+  //       .catch(error => {
+  //         toast.error(error.response.data.message);
+  //       });
+  //   } else {
+  //     toast.error('Reservation not found.');
+  //   }
+  // };
 
   const formatTime = time => {
     const [hours, minutes] = time.split(':');
@@ -154,6 +186,11 @@ const Home = () => {
             {reservations.length === 0 && <p className='text-gray-500'>You don&#39;t have any reservations yet.</p>}
           </div>
         </div>
+        <ConfirmationModal
+          isOpen={deleteReservationId !== null}
+          onClose={() => setDeleteReservationId(null)}
+          onConfirm={confirmDelete}
+        />
         <ReservationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         <CheckAvailabilityModal
           isOpen={isCheckAvailabilityModalOpen}

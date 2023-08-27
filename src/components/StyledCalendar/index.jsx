@@ -11,7 +11,7 @@ const StyledCalendar = ({ onSelectDate }) => {
     date.setHours(date.getHours() + 5);
     date.setMinutes(date.getMinutes() + 30);
     setSelectedDate(date);
-    onSelectDate(date); // Pass the selected date to the parent component
+    onSelectDate(date);
   };
 
   return (

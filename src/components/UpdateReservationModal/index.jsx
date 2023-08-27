@@ -45,7 +45,6 @@ const UpdateReservationModal = ({ isOpen, onClose, reservation }) => {
     const formattedStartTime = startTime + ':00';
     const formattedEndTime = endTime + ':00';
 
-    console.log(reservation.id);
     axios
       .put(
         `http://localhost:8000/update-reservation/${reservation.id}`,

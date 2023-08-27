@@ -69,29 +69,9 @@ const Home = () => {
         toast.error('Reservation not found.');
       }
 
-      setDeleteReservationId(null); // Clear the reservation ID after handling the deletion
+      setDeleteReservationId(null);
     }
   };
-
-  // const handleDeleteReservation = id => {
-  //   const reservationToDelete = reservations.find(reservation => reservation.id === id);
-
-  //   if (reservationToDelete) {
-  //     axios
-  //       .delete(`http://localhost:8000/cancel-reservation/${id}`, {
-  //         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  //       })
-  //       .then(() => {
-  //         setReservations(prevReservations => prevReservations.filter(reservation => reservation.id !== id));
-  //         toast.success('Reservation deleted successfully!');
-  //       })
-  //       .catch(error => {
-  //         toast.error(error.response.data.message);
-  //       });
-  //   } else {
-  //     toast.error('Reservation not found.');
-  //   }
-  // };
 
   const formatTime = time => {
     const [hours, minutes] = time.split(':');

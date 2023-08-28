@@ -44,7 +44,7 @@ const Home = () => {
   };
 
   const handleDeleteReservation = id => {
-    setDeleteReservationId(id); // Set the reservation ID to be deleted
+    setDeleteReservationId(id);
   };
 
   const confirmDelete = () => {
@@ -132,7 +132,7 @@ const Home = () => {
                   <th className='py-2 px-4 text-left'>Time</th>
                   <th className='py-2 px-4 text-left'>Slot</th>
                   <th className='py-2 px-4'>
-                    <div className='flex justify-end items-center pr-3'>Actions</div>
+                    <div className='flex justify-end items-center pr-2'>Actions</div>
                   </th>
                   <th className='py-2 px-4 text-left'></th>
                 </tr>
@@ -149,14 +149,14 @@ const Home = () => {
                       <button
                         className='px-2 py-1 bg-white text-purple-600 rounded border border-purple-600 hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white'
                         onClick={() => handleUpdateReservation(reservation.id)}>
-                        Update
+                        Edit
                       </button>
                     </td>
                     <td className='py-2 px-4'>
                       <button
                         className='px-2 py-1 bg-red-700 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600'
                         onClick={() => handleDeleteReservation(reservation.id)}>
-                        Delete
+                        Cancel
                       </button>
                     </td>
                   </tr>

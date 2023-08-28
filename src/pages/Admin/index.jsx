@@ -56,7 +56,7 @@ const AdminPage = () => {
           )}
           {date && (
             <div className='flex items-center gap-x-2'>
-              <p className='text-purple-700 text-sm'>Selected date: {date.toISOString().split('T')[0]}</p>
+              <p className='text-sm font-bold'>Selected date: {date.toISOString().split('T')[0]}</p>
               <FontAwesomeIcon icon={faTimesCircle} className='text-red-500 cursor-pointer' onClick={handleDateReset} />
             </div>
           )}
@@ -65,22 +65,20 @@ const AdminPage = () => {
           <table className='min-w-full'>
             <thead className='bg-purple-700 text-white'>
               <tr>
-                <th className='py-3 px-6 text-left'>ID</th>
+                <th className='py-3 px-6 text-left'>User Email</th>
+                <th className='py-3 px-6 text-left'>Date</th>
                 <th className='py-3 px-6 text-left'>Start Time</th>
                 <th className='py-3 px-6 text-left'>End Time</th>
-                <th className='py-3 px-6 text-left'>Date</th>
-                <th className='py-3 px-6 text-left'>User Email</th>
                 <th className='py-3 px-6 text-left'>Slot</th>
               </tr>
             </thead>
             <tbody>
               {filteredParkingDetails.map(parking => (
                 <tr key={parking.id} className='border-b border-gray-200'>
-                  <td className='py-4 px-6'>{parking.id}</td>
+                  <td className='py-4 px-6'>{parking.userEmail}</td>
+                  <td className='py-4 px-6'>{parking.date}</td>
                   <td className='py-4 px-6'>{parking.startTime}</td>
                   <td className='py-4 px-6'>{parking.endTime}</td>
-                  <td className='py-4 px-6'>{parking.date}</td>
-                  <td className='py-4 px-6'>{parking.userEmail}</td>
                   <td className='py-4 px-6'>{parking.slot}</td>
                 </tr>
               ))}

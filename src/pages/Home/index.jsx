@@ -110,14 +110,14 @@ const Home = () => {
       <Navbar />
       <div className='container mx-auto mt-10'>
         <h1 className='text-3xl font-semibold text-center text-purple-700 mb-6'>Reservations</h1>
-        <div className='flex justify-between items-center mb-4'>
+        <div className='flex justify-start items-center gap-x-5'>
           <button
-            className='px-4 py-2 bg-purple-700 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:bg-purple-600'
+            className='px-4 py-2 bg-purple-700 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:bg-purple-600 mb-4'
             onClick={() => setIsModalOpen(true)}>
             Create Reservation
           </button>
           <button
-            className='px-4 py-2 bg-purple-700 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:bg-purple-600'
+            className='px-4 py-2 bg-purple-700 text-white rounded-full hover:bg-purple-600 focus:outline-none focus:bg-purple-600 mb-4'
             onClick={() => setIsCheckAvailabilityModalOpen(true)}>
             Check Availability
           </button>
@@ -147,7 +147,7 @@ const Home = () => {
                     <td className='py-2 px-4'>{reservation.slot}</td>
                     <td className='py-2 px-4'>
                       <button
-                        className='px-2 py-1 bg-purple-600 text-white rounded hover:bg-purple-500 focus:outline-none focus:bg-purple-600'
+                        className='px-2 py-1 bg-white text-purple-600 rounded border border-purple-600 hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white'
                         onClick={() => handleUpdateReservation(reservation.id)}>
                         Update
                       </button>

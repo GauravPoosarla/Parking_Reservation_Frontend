@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import Navbar from '../../components/Navbar';
 import StyledCalendar from '../../components/StyledCalendar';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import { toast } from 'react-toastify';
 
 const AdminPage = () => {
   const [parkingDetails, setParkingDetails] = useState([]);
   const [date, setDate] = useState('');
   const [showCalendar, setShowCalendar] = useState(false);
+  const [deleteReservationId, setDeleteReservationId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   useEffect(() => {
     axios
@@ -31,12 +34,40 @@ const AdminPage = () => {
     setDate('');
   };
 
+  const confirmDelete = async () => {
+    if (deleteReservationId) {
+      const reservationToDelete = parkingDetails.find(reservation => reservation.id === deleteReservationId);
+      if (reservationToDelete) {
+        axios
+          .delete(`http://localhost:8000/delete-reservation-admin/${deleteReservationId}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          })
+          .then(() => {
+            setParkingDetails(prevReservations =>
+              prevReservations.filter(reservation => reservation.id !== deleteReservationId)
+            );
+            toast.success('Reservation deleted successfully!');
+          })
+          .catch(error => {
+            toast.error(error.response.data.message);
+          });
+      } else {
+        toast.error('Reservation not found.');
+      }
+      setDeleteReservationId(null);
+    }
+  };
+
   const filteredParkingDetails = parkingDetails.filter(parking => {
     const isMatchingDate = !date || parking.date === date.toISOString().split('T')[0];
     const isMatchingSearch = !searchQuery || parking.userEmail.includes(searchQuery);
 
     return isMatchingDate && isMatchingSearch;
   });
+
+  const handleDeleteReservation = id => {
+    setDeleteReservationId(id);
+  };
 
   return (
     <div>
@@ -86,6 +117,7 @@ const AdminPage = () => {
                 <th className='py-3 px-6 text-left'>Start Time</th>
                 <th className='py-3 px-6 text-left'>End Time</th>
                 <th className='py-3 px-6 text-left'>Slot</th>
+                <th className='py-3 px-6 text-left'>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -96,12 +128,24 @@ const AdminPage = () => {
                   <td className='py-4 px-6'>{parking.startTime}</td>
                   <td className='py-4 px-6'>{parking.endTime}</td>
                   <td className='py-4 px-6'>{parking.slot}</td>
+                  <td className='py-4 px-6'>
+                    <button
+                      className='px-2 py-1 bg-red-700 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600'
+                      onClick={() => handleDeleteReservation(parking.id)}>
+                      Cancel
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+      <ConfirmationModal
+        isOpen={deleteReservationId !== null}
+        onClose={() => setDeleteReservationId(null)}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 };

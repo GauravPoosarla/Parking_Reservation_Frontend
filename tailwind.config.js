@@ -7,7 +7,7 @@ module.exports = {
         modal: '0px 4px 6px rgba(0, 0, 0, 0.1)',
       },
       borderWidth: {
-        '3': '3px',
+        3: '3px',
       },
       colors: {
         'light-bg': '#f7fafc',

@@ -6,6 +6,7 @@ import ReservationModal from '../../components/ReservationModal';
 import CheckAvailabilityModal from '../../components/CheckAvailabilityModal';
 import UpdateReservationModal from '../../components/UpdateReservationModal';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import QRModal from '../../components/QRModal';
 import { ReservationDataContext } from '../../contexts/ReservationData';
 import { toast } from 'react-toastify';
 
@@ -15,6 +16,8 @@ const Home = () => {
   const [isUpdateReservationModalOpen, setIsUpdateReservationModalOpen] = useState(false);
   const [updateReservation, setUpdateReservation] = useState({});
   const [deleteReservationId, setDeleteReservationId] = useState(null);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState('');
   const { reservations, setReservations } = useContext(ReservationDataContext);
   const navigate = useNavigate();
 
@@ -105,6 +108,21 @@ const Home = () => {
     return formattedDate.replace(String(dateObj.getDate()), dayWithSuffix);
   };
 
+  const handleViewQrCode = async reservationId => {
+    try {
+      const response = await axios.get(`http://localhost:8000/get-status-of-reservation/${reservationId}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+
+      const qrDataString = JSON.stringify(response.data);
+
+      setQrCodeData(qrDataString);
+      setIsQRModalOpen(true);
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.');
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -131,6 +149,7 @@ const Home = () => {
                   <th className='py-2 px-4 text-left'>Date</th>
                   <th className='py-2 px-4 text-left'>Time</th>
                   <th className='py-2 px-4 text-left'>Slot</th>
+                  <th className='py-2 px-4 text-left'>QR code</th>
                   <th className='py-2 px-4'>
                     <div className='flex justify-end items-center pr-2'>Actions</div>
                   </th>
@@ -145,6 +164,13 @@ const Home = () => {
                       {formatTime(reservation.startTime)} - {formatTime(reservation.endTime)}
                     </td>
                     <td className='py-2 px-4'>{reservation.slot}</td>
+                    <td className='py-2 px-4'>
+                      <button
+                        className='hover:underline focus:outline-none'
+                        onClick={() => handleViewQrCode(reservation.id)}>
+                        Generate QR
+                      </button>
+                    </td>
                     <td className='py-2 px-4'>
                       <button
                         className='px-2 py-1 bg-white text-purple-600 rounded border border-purple-600 hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white'
@@ -181,6 +207,7 @@ const Home = () => {
           onClose={() => setIsUpdateReservationModalOpen(false)}
           reservation={updateReservation}
         />
+        <QRModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} qrCodeData={qrCodeData} />
       </div>
     </div>
   );

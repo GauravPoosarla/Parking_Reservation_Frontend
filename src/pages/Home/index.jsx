@@ -123,6 +123,14 @@ const Home = () => {
     }
   };
 
+  const sortedReservations = reservations.sort((a, b) => {
+    const dateComparison = a.date.localeCompare(b.date);
+    if (dateComparison !== 0) {
+      return dateComparison;
+    }
+    return a.startTime.localeCompare(b.startTime);
+  });
+
   return (
     <div>
       <Navbar />
@@ -157,7 +165,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {reservations.map(reservation => (
+                {sortedReservations.map(reservation => (
                   <tr key={reservation.id} className='border-t'>
                     <td className='py-2 px-4'>{formatDate(reservation.date)}</td>
                     <td className='py-2 px-4'>

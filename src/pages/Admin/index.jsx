@@ -58,11 +58,33 @@ const AdminPage = () => {
     }
   };
 
+  const handleFetchCurrentStatus = () => {
+    axios
+      .get('http://localhost:8000/reservations', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then(response => {
+        setParkingDetails(response.data);
+        toast.success('Current status fetched successfully!');
+      })
+      .catch(error => {
+        toast.error(error.response.data.message);
+      });
+  };
+
   const filteredParkingDetails = parkingDetails.filter(parking => {
     const isMatchingDate = !date || parking.date === date.toISOString().split('T')[0];
     const isMatchingSearch = !searchQuery || parking.userEmail.includes(searchQuery);
 
     return isMatchingDate && isMatchingSearch;
+  });
+
+  const sortedParkingDetails = filteredParkingDetails.sort((a, b) => {
+    const dateComparison = a.date.localeCompare(b.date);
+    if (dateComparison !== 0) {
+      return dateComparison;
+    }
+    return a.startTime.localeCompare(b.startTime);
   });
 
   const handleDeleteReservation = id => {
@@ -99,6 +121,11 @@ const AdminPage = () => {
             )}
           </div>
           <div className='flex gap-x-2 items-center'>
+            <button
+              className='py-2 px-2  bg-white text-purple-600 rounded border border-purple-600 hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white'
+              onClick={handleFetchCurrentStatus}>
+              Fetch Status
+            </button>
             <input
               type='text'
               placeholder='Search by user email...'
@@ -117,17 +144,23 @@ const AdminPage = () => {
                 <th className='py-3 px-6 text-left'>Start Time</th>
                 <th className='py-3 px-6 text-left'>End Time</th>
                 <th className='py-3 px-6 text-left'>Slot</th>
+                <th className='py-3 px-6 text-left'>Check-In Status</th>
                 <th className='py-3 px-6 text-left'>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredParkingDetails.map(parking => (
+              {sortedParkingDetails.map(parking => (
                 <tr key={parking.id} className='border-b border-gray-200'>
                   <td className='py-4 px-6'>{parking.userEmail}</td>
                   <td className='py-4 px-6'>{parking.date}</td>
                   <td className='py-4 px-6'>{parking.startTime}</td>
                   <td className='py-4 px-6'>{parking.endTime}</td>
                   <td className='py-4 px-6'>{parking.slot}</td>
+                  {parking.parkingStatus === true ? (
+                    <td className='py-4 px-6 text-green-600'>Checked In</td>
+                  ) : (
+                    <td className='py-4 px-6 text-red-600'>Not Checked In</td>
+                  )}
                   <td className='py-4 px-6'>
                     <button
                       className='px-2 py-1 bg-red-700 text-white rounded hover:bg-red-600 focus:outline-none focus:bg-red-600'

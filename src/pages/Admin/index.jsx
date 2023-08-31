@@ -98,7 +98,7 @@ const AdminPage = () => {
         <div className='flex items-center mb-4 gap-x-2 relative justify-between'>
           <div className='flex items-center gap-x-2'>
             <h2 className='text-2xl font-semibold text-purple-700'>All Reservations</h2>
-            <FontAwesomeIcon icon={faFilter} className='text-purple-700 mt-1' onClick={toggleCalendar} />
+            <FontAwesomeIcon icon={faFilter} className='text-purple-700 mt-1 cursor-pointer' onClick={toggleCalendar} />
             {showCalendar && (
               <div className='calendar-overlay absolute top-5'>
                 <StyledCalendar
@@ -124,7 +124,7 @@ const AdminPage = () => {
             <button
               className='py-2 px-2  bg-white text-purple-600 rounded border border-purple-600 hover:bg-purple-600 hover:text-white focus:outline-none focus:bg-purple-600 focus:text-white'
               onClick={handleFetchCurrentStatus}>
-              Fetch Status
+              Fetch Reservations
             </button>
             <input
               type='text'

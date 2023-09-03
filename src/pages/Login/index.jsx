@@ -42,6 +42,8 @@ export default function Login() {
       return;
     }
     sendRegisterData(email, password);
+    setEmail('');
+    setPassword('');
   };
 
   const sendLoginData = async (email, password) => {
@@ -76,9 +78,8 @@ export default function Login() {
 
     axios
       .post('http://localhost:8080/register', data)
-      .then(response => {
-        localStorage.setItem('token', response.data);
-        toast.success('Registeration successful!');
+      .then(() => {
+        toast.success('Registration successful!');
         sethaveAccount(true);
       })
       .catch(error => {
@@ -104,6 +105,7 @@ export default function Login() {
               type='email'
               className='block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
               onChange={e => setEmail(e.target.value)}
+              value={email}
             />
           </div>
           <div className='mb-2'>
@@ -114,6 +116,7 @@ export default function Login() {
               type='password'
               className='block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40'
               onChange={e => setPassword(e.target.value)}
+              value={password}
             />
           </div>
           {!haveAccount && (

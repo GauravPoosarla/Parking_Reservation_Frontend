@@ -37,7 +37,11 @@ const UpdateReservationModal = ({ isOpen, onClose, reservation }) => {
         setAvailableSlots(response.data);
       })
       .catch(error => {
-        toast.error(error.response.data.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('Something went wrong');
+        }
       });
   };
 
@@ -77,7 +81,11 @@ const UpdateReservationModal = ({ isOpen, onClose, reservation }) => {
         setSelectedSlot('');
       })
       .catch(error => {
-        toast.error(error.response.data.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('Something went wrong');
+        }
       });
   };
 

@@ -49,7 +49,11 @@ const AdminPage = () => {
             toast.success('Reservation deleted successfully!');
           })
           .catch(error => {
-            toast.error(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+              toast.error(error.response.data.message);
+            } else {
+              toast.error('Something went wrong');
+            }
           });
       } else {
         toast.error('Reservation not found.');
@@ -68,7 +72,11 @@ const AdminPage = () => {
         toast.success('Current status fetched successfully!');
       })
       .catch(error => {
-        toast.error(error.response.data.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('Something went wrong');
+        }
       });
   };
 
